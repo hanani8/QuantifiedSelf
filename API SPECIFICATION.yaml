@@ -1,0 +1,728 @@
+openapi: 3.0.0
+info:
+  title: Quantified Self App API specification
+  description: The API Specification for the MAD I final project
+
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000/
+paths:
+  /api/trackers/{user_id}:
+    description: End point to get the list of all trackers associated with user_id
+    get:
+      description: Operation to Read all tracker resources.
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+      responses:
+         '200':
+           description: Request Successful
+           content:
+             application/json:
+               schema:
+                 title: Tracker Objects
+                 type: object
+                 properties:
+                   tracker_id:
+                     type: integer
+                     example: 1
+                   tracker_name:
+                     type: string
+                     example: running tracker
+                   tracker_type:
+                     type: integer
+                   description:
+                     type: string
+                   last_review:
+                     type: string
+         '500':
+           description: Internal Server Error
+         '404':
+           description: User not found.
+           
+  /api/logs/{user_id}/{tracker_id}:
+    description: End point to get the list of all trackers associated with user_id
+    get:
+      description: Operation to Read all the logs in a tracker of a user.
+      parameters:
+        - in: path 
+          name: tracker_id
+          required: true
+          schema: 
+            type: integer
+            example: 1
+        - in: path 
+          name: user_id
+          required: true
+          schema: 
+            type: integer
+            example: 1 
+      responses:
+         '200':
+           description: Request Successful
+           content:
+             application/json:
+               schema:
+                 title: Log Objects
+                 type: object
+                 properties:
+                   log_id:
+                     type: integer
+                     example: 1
+                   value:
+                     type: string
+                     example: 2_3
+                   desc:
+                     type: string
+                   timestamp:
+                     type: string
+         '500':
+           description: Internal Server Error
+         '404':
+           description: Tracker or User not found.
+                   
+       
+           
+  /api/tracker/{user_id}/{tracker_id}:
+    description: End point to read, update and delete a tracker resource with tracker_id = tracker_id.
+    get:
+      description: Operation to Read tracker resource.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201 
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                title: tracker object
+                type: object
+                properties:
+                  tracker_id:
+                    type: integer
+                    example: 201
+                  tracker_name:
+                    type: string
+                    example: Maths1
+                  tracker_type:
+                    type: string
+                    example: MA101
+                  description:
+                    type: string
+                    example: Course Description Example
+                  last_review:
+                    type: string
+                    description: time of last review
+        '500':
+          description: Internal Server Error
+        '404':
+          description: Tracker not found
+
+    put:
+      description: Operation to update the course resource.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tracker_name:
+                  type: string
+                  example: Running tracker
+                description:
+                  type: string
+                  example: Used to track my mileage
+      responses:
+        '200':
+          description: Successfuly updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tracker_id:
+                    type: integer
+                    example: 201
+                  tracker_name:
+                    type: string
+                    example: Maths1
+                  description:
+                    type: string
+                    example: MA101
+                  tracker_type:
+                    type: integer
+                    example: 1
+                  last_review:
+                    type: string
+                    example: 21-03-2000
+        '404':
+          description: Tracker not found
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+    delete:
+      description: Operation to delete the Tracker resource
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201            
+      responses:
+        '200':
+          description: Successfully Deleted
+        '404':
+          description: Tracker not found
+        '500':
+          description: Intenal Server Error
+          
+        
+  /api/log/{user_id}/{log_id}:
+    description: End point to read, update and delete a log resource with log_id = log_id.
+    get:
+      description: Operation to Read log resource.
+      parameters:
+        - in: path
+          name: log_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201        
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                title: log object
+                type: object
+                properties:
+                  tracker_id:
+                    type: integer
+                    example: 201
+                  log_id:
+                    type: integer
+                    example: 1
+                  value:
+                    type: string
+                    example: 2_3
+                  desc:
+                    type: string
+                    example: Ran 2K miles
+                  timestamp:
+                    type: string
+                    description: Abhi
+        '500':
+          description: Internal Server Error
+        '404':
+          description: Log not found
+
+    put:
+      description: Operation to update the log resource.
+      parameters:
+        - in: path
+          name: log_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201            
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+                  example: Running tracker
+                desc:
+                  type: string
+                  example: Used to track my mileage
+                timestamp:
+                  type: string
+                  example: 2022-03-03
+      responses:
+        '200':
+          description: Successfuly updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  log_id:
+                    type: integer
+                    example: 1
+                  value:
+                    type: string
+                    example: 2_3
+                  desc:
+                    type: string
+                    example: MA101
+                  timestamp:
+                    type: string
+                    example: 21-03-2000
+                  last_review:
+                    type: string
+                    example: 21-03-2000
+        '404':
+          description: Log not found
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+    delete:
+      description: Operation to delete the Log resource
+      parameters:
+        - in: path
+          name: log_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201            
+      responses:
+        '200':
+          description: Successfully Deleted
+        '404':
+          description: Log not found
+        '500':
+          description: Intenal Server Error
+          
+          
+  /api/setting/{tracker_id}:
+    description: End point to read, update and delete a setting resource with tracker_id = tracker_id.
+    get:
+      description: Operation to Read setitng resource.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                title: setting object
+                type: object
+                properties:
+                  tracker_id:
+                    type: integer
+                    example: 201
+                  setting_name:
+                    type: string
+                    example: Maths1
+                  setting_value:
+                    type: integer
+                    example: 1
+        '500':
+          description: Internal Server Error
+        '404':
+          description: Tracker not found
+
+    put:
+      description: Operation to update the course resource.
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                setting_name:
+                  type: string
+                  example: Running tracker
+      responses:
+        '200':
+          description: Successfuly updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tracker_id:
+                    type: integer
+                    example: 201
+                  setting_name:
+                    type: string
+                    example: Maths1
+        '404':
+          description: Tracker not found
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+    delete:
+      description: Operation to delete the setting resource
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+      responses:
+        '200':
+          description: Successfully Deleted
+        '400':
+          description: Not allowed to delete
+          
+        '404':
+          description: Tracker not found
+        '500':
+          description: Intenal Server Error
+
+
+  /api/user:
+    description: End point to create user account
+    post:
+      description: Operation to create the user account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  example: Hanani
+                user_password:
+                  type: string
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    example: 1
+                  user_name:
+                    type: string
+                    example: Hanani
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+
+
+  /api/tracker/post/{user_id}:
+    description: Url to create tracker resource
+    post:
+      description: Operation to create the tracker resource
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  example: 1
+                tracker_name:
+                  type: string
+                  example: Running
+                description:
+                  type: string
+                  example: tracker to log my daily mileage
+                tracker_type:
+                  type: integer
+                  example: 1
+                last_review:
+                  type: string
+                  example: 2022-03-02 17:12:30								
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                title: tracker object
+                type: object
+                properties:
+                  tracker_id:
+                    type: integer
+                    example: 1
+                  tracker_name:
+                    type: string
+                    example: Running Tracker
+                  tracker_type:
+                    type: integer
+                    example: 1
+                  description:
+                    type: string
+                    example: To log my daily mileage
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+
+  /api/log/post/{user_id}/{tracker_id}:
+    description: Url to log
+    post:
+      description: Operation to create the log
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  example: 1
+                tracker_id:
+                  type: integer
+                  example: 1
+                desc:
+                  type: string
+                  example: tracker to log my daily mileage
+                value:
+                  type: integer
+                  example: 1
+                timestamp:
+                  type: string
+                  example: 2022-03-02 17:12:30							
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                title: log object
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    example: 1
+                  tracker_id:
+                    type: integer
+                    example: 1
+                  desc:
+                    type: string
+                    example: I will use it to log my mileage
+                  value:
+                    type: integer
+                    example: 1
+                  timestamp:
+                    type: string
+                    example: 2022-03-02
+									
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+								
+  /api/setting/post/{tracker_id}:
+    description: Url to create option for multi-choice trackers
+    post:
+      description: Operation to create an option in multi-choice trackers
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+          
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tracker_id:
+                  type: integer
+                  example: 1
+                setting_name:
+                  type: string
+                  example: Nice
+                setting_value:
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Successfully Created
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string
+                    
+  /api/dashboard/{user_id}/{tracker_id}:
+    description: End point to create user account
+    get:
+      parameters:
+        - in: path
+          name: tracker_id
+          required: true
+          schema:
+            type: integer
+            example: 201
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            example: 201            
+      responses:
+        '200':
+          description: Data Retrieved
+        '500':
+          description: Internal Server Error
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_code:
+                    type: string
+                  error_message:
+                    type: string

@@ -1,0 +1,24 @@
+Numerical : Trendline, Scatter, Sum, Mean, Mode
+Decimal: Trendline, Scatter, Sum, Mean, Mode
+Boolean: Pie, Horizontal Graph
+Time Duration: Scatter, Sum, Mean, Mode
+Multiple Choice: Pie, Horizontal Graph
+
+SQL for Numerical:
+Trendline: SELECT value, timestamp FROM LOG where user_id = 1 and tracker_id = 1
+Scatter: SELECT value, count(DISTINCT(value)) FROM LOG where user_id = 1 and tracker_id = 1 group by value
+Sum, Mean, Mode, Max, Min: SELECT sum(value), avg(value), max(value), min(value) FROM LOG where user_id = 1 and tracker_id = 1;
+
+Decimal: Same
+
+Boolean:
+Pie, Horizontal Graph: SELECT value, count((value)) FROM LOG where user_id = 1 and tracker_id = 3 group by value
+
+Time Duration:
+Scatter: SELECT value, count((value)) FROM LOG where user_id = 1 and tracker_id = 4 group by value
+Sum,Mean,Mode,Min,Max: SELECT sum(value), min(value), max(value), avg(value)  FROM LOG where user_id = 1 and tracker_id = 4
+
+Multiple-Choice: 
+Pie, Horizontal Graph: SELECT value, count(distinct(value))  FROM LOG where user_id = 1 and tracker_id = 5 group by value;
+
+
